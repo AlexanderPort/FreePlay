@@ -120,7 +120,8 @@ public class TrackDAO implements ITrackDAO {
     }
     public void insertFollower(String userId, String artistId) {
         String sql = String.format("select 1 from user_artist where userId = '%s' and artistId='%s' limit 1", userId, artistId);
-        if (template.query(sql, (rs, rows) -> rs.getInt(1)).get(0) == 1) return;
+        List<Integer> list = template.query(sql, (rs, rows) -> rs.getInt(1));
+        if (list.size() > 0) { if (list.get(0) == 1) return; }
         
         sql = "insert into user_artist(userId, artistId) values(:userId, :artistId)";
         KeyHolder keyHolder = new GeneratedKeyHolder();

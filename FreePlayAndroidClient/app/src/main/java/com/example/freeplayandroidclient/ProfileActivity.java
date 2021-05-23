@@ -37,14 +37,17 @@ public class ProfileActivity extends Base implements RegistrationDialog.Registra
         numArtists = (TextView) findViewById(R.id.numArtists);
         numPlaylists = (TextView) findViewById(R.id.numPlaylists);
 
+        numArtists.setText("Подписки 0");
+        numPlaylists.setText("Плейлисты 0");
+
         if (currentUser != null) {
             api.getUserById(currentUser.getUserId(), new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
                         currentUser = User.fromJSON(response);
-                        numArtists.setText("subscriptions: " + currentUser.getArtists().size());
-                        numPlaylists.setText("playlists: " + currentUser.getPlaylists().size());
+                        numArtists.setText("Подписки " + currentUser.getArtists().size());
+                        numPlaylists.setText("Плейлисты " + currentUser.getPlaylists().size());
                         for (Artist artist : currentUser.getArtists()) {
                             View view = getLayoutInflater().inflate(R.layout.artist_item, null);
                             view.setOnClickListener(new View.OnClickListener() {

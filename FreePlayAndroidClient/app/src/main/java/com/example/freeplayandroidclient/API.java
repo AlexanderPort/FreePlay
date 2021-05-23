@@ -27,8 +27,8 @@ public class API {
     private final RequestQueue requestQueue;
     //private static final String API = "http://127.0.0.1:8000";
     private static final String API = "http://10.0.2.2:8000";
-    //private static final String API = "https://sweet-quail-15.loca.lt";
-    //private static final String API = "https://lucky-shrimp-40.loca.lt";
+    //private static final String API = "https://quick-moose-52.loca.lt";
+    //private static final String API = "https://honest-crab-88.loca.lt";
     //private static final String API = "http://127.0.0.1:8000";
     public API(Context context) {
         requestQueue = Volley.newRequestQueue(context);

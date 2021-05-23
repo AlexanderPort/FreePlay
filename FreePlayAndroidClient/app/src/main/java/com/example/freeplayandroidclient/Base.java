@@ -57,7 +57,6 @@ public class Base extends AppCompatActivity implements
         mediaPlayer.setOnCompletionListener(this);
         api = new API(getBaseContext());
 
-
     }
     @Override
     protected void onStart() {

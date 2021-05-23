@@ -37,7 +37,7 @@
         <Button
             android:id="@+id/follow"
             android:alpha="0.3"
-            android:text="Follow"
+            android:text="Подписаться"
             android:textSize="13dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="6dp"

@@ -3,10 +3,14 @@ package com.example.freeplayandroidclient;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,34 +19,36 @@ import androidx.core.content.FileProvider;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class ActionsActivity extends Base {
     private Track track;
-    private TextView shareView;
-    private TextView downloadView;
+    private LinearLayout shareView;
+    private LinearLayout downloadView;
     private TextView trackNameView;
     private TextView artistNameView;
-    private TextView addInAlbumView;
+    private LinearLayout addInAlbumView;
     private ImageView thumbnailView;
-    private TextView goToArtistView;
-    private TextView addInFavouritesView;
+    private LinearLayout goToArtistView;
+    private LinearLayout addInFavouritesView;
     private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actions);
-        shareView = (TextView) findViewById(R.id.share);
-        downloadView = (TextView) findViewById(R.id.download);
+        shareView = (LinearLayout) findViewById(R.id.share);
+        downloadView = (LinearLayout) findViewById(R.id.download);
         trackNameView = (TextView) findViewById(R.id.trackName);
         thumbnailView = (ImageView) findViewById(R.id.thumbnail);
         artistNameView = (TextView) findViewById(R.id.artistName);
-        addInAlbumView = (TextView) findViewById(R.id.addInAlbum);
-        goToArtistView = (TextView) findViewById(R.id.goToArtist);
-        addInFavouritesView = (TextView) findViewById(R.id.addInFavourites);
+        addInAlbumView = (LinearLayout) findViewById(R.id.addInAlbum);
+        goToArtistView = (LinearLayout) findViewById(R.id.goToArtist);
+        addInFavouritesView = (LinearLayout) findViewById(R.id.addInFavourites);
 
         shareView.setOnClickListener(this);
         downloadView.setOnClickListener(this);

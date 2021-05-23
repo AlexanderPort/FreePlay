@@ -14,7 +14,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
-        android:hint="Username" />
+        android:hint="Имя" />
     <EditText
         android:id="@+id/userEmail"
         android:textColor="@color/white"
@@ -38,7 +38,7 @@
         android:layout_marginRight="4dp"
         android:layout_marginBottom="16dp"
         android:fontFamily="sans-serif"
-        android:hint="Password"/>
+        android:hint="Пароль"/>
     <LinearLayout
         android:weightSum="2"
         android:orientation="horizontal"
