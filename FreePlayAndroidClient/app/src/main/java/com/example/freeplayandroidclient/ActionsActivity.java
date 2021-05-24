@@ -117,15 +117,17 @@ public class ActionsActivity extends Base {
             shareIntent.setAction(Intent.ACTION_SEND);
             File file = new File(getFilesDir() + "/tracks",
                     track.getTrackId() + "." + track.getTrackDataFormat());
+            System.out.println(track.getTrackDataFormat());
             if (file.exists()) {
                 Uri uri = FileProvider.getUriForFile(getApplicationContext(),
                         "com.example.freeplayandroidclient.provider", file);
                 shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                shareIntent.setType("audio/*");
             } else {
                 String url = api.getTrackDataURL(track.getTrackId());
-                shareIntent.putExtra(Intent.EXTRA_STREAM, url);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, url);
+                shareIntent.setType("text/*");
             }
-            shareIntent.setType("audio/*");
             startActivity(Intent.createChooser(shareIntent, track.getTrackName()));
         }
     }

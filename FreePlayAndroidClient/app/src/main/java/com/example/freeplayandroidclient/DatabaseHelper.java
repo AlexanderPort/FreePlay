@@ -169,9 +169,10 @@ public class DatabaseHelper {
             String trackName = trackCursor.getString(1);
             String trackDataFormat = trackCursor.getString(2);
             String trackImageFormat = trackCursor.getString(3);
-            System.out.println(trackDataFormat);
             Track track = new Track(trackId, trackName, trackDataFormat, trackImageFormat);
-
+            System.out.println(trackDataFormat);
+            System.out.println(trackDataFormat);
+            System.out.println(trackDataFormat);
             trackId = String.format("'%s'", trackId);
 
             Cursor albumCursor = db.rawQuery(albumQuery + trackId, null);
