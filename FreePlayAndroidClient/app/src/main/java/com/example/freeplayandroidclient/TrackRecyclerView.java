@@ -110,7 +110,7 @@ public class TrackRecyclerView extends RecyclerView implements
     }
     public void addTracks(JSONArray response) throws JSONException {
         addTracks(Track.fromJSON(response));
-        trackAdapter.setItems(this.tracks);
+        //trackAdapter.setItems(this.tracks);
         trackAdapter.notifyDataSetChanged();
     }
     @Override

@@ -26,10 +26,10 @@ import java.util.Map;
 public class API {
     private final RequestQueue requestQueue;
     //private static final String API = "http://127.0.0.1:8000";
-    private static final String API = "http://10.0.2.2:8000";
+    //private static final String API = "http://10.0.2.2:8000";
     //private static final String API = "https://quick-moose-52.loca.lt";
     //private static final String API = "https://honest-crab-88.loca.lt";
-    //private static final String API = "http://127.0.0.1:8000";
+    private static final String API = "https://warm-crag-36597.herokuapp.com";
     public API(Context context) {
         requestQueue = Volley.newRequestQueue(context);
         requestQueue.start();
@@ -47,6 +47,14 @@ public class API {
                              Response.ErrorListener errorListener) {
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 getAllTracksURL(trackName, albumName, artistName),
+                listener, errorListener);
+        requestQueue.add(jsonArrayRequest);
+    }
+    public void getRandomTracks(int numTracks,
+                                Response.Listener<JSONArray> listener,
+                                Response.ErrorListener errorListener) {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                String.format("%s/api/tracks/random/%s", API, numTracks),
                 listener, errorListener);
         requestQueue.add(jsonArrayRequest);
     }
