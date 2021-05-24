@@ -62,17 +62,27 @@ public class Track implements Serializable {
         try { this.trackImage = trackImage.getBytes(); }
         catch (IOException exception) { exception.printStackTrace(); }
     }
-    public void setAlbums(String albums) {
-        ObjectMapper mapper = new ObjectMapper();
-        try { this.albums = Arrays.asList(
-            mapper.readValue(albums, Album[].class)); }
-        catch (Exception exception) { exception.printStackTrace(); }
+    public void setAlbums(Object object) {
+        if (object instanceof String) {
+            String albums = ((String) object);
+            ObjectMapper mapper = new ObjectMapper();
+            try { this.albums = Arrays.asList(
+                mapper.readValue(albums, Album[].class)); }
+            catch (Exception exception) { exception.printStackTrace(); }
+        } else if (object instanceof List<?>) {
+            this.albums = ((List<Album>)object);
+        }
     }
-    public void setArtists(String artists) {
-        ObjectMapper mapper = new ObjectMapper();
-        try { this.artists = Arrays.asList(
-            mapper.readValue(artists, Artist[].class)); }
-        catch (Exception exception) { exception.printStackTrace(); }
+    public void setArtists(Object object) {
+        if (object instanceof String) {
+            String artists = ((String) object);
+            ObjectMapper mapper = new ObjectMapper();
+            try { this.artists = Arrays.asList(
+                mapper.readValue(artists, Artist[].class)); }
+            catch (Exception exception) { exception.printStackTrace(); }
+        } else if (object instanceof List<?>) {
+            this.artists = ((List<Artist>)object);
+        }
     }
     /*
     public void setAlbums(List<Album> albums) {

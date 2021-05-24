@@ -108,3 +108,18 @@ CREATE TABLE IF NOT EXISTS track_playlist
     FOREIGN KEY (trackId) REFERENCES track(trackId),
     FOREIGN KEY (playlistId) REFERENCES playlist(playlistId)
 );
+
+
+CREATE INDEX IF NOT EXISTS track_index ON track(trackId);
+CREATE INDEX IF NOT EXISTS album_index ON album(albumId);
+CREATE INDEX IF NOT EXISTS artist_index ON artist(artistId);
+CREATE INDEX IF NOT EXISTS track_album_index ON track_album(trackId);
+CREATE INDEX IF NOT EXISTS track_artist_index ON track_artist(trackId);
+
+/*
+DROP INDEX IF EXISTS track_index;
+DROP INDEX IF EXISTS album_index;
+DROP INDEX IF EXISTS artist_index;
+DROP INDEX IF EXISTS track_album_index;
+DROP INDEX IF EXISTS track_artist_index;
+*/

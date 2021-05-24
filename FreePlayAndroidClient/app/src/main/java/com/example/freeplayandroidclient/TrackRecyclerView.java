@@ -53,6 +53,7 @@ public class TrackRecyclerView extends RecyclerView implements
     public void addTrack(String trackId, String trackName,
                          String trackDataFormat, String trackImageFormat,
                          List<Album> albums, List<Artist> artists) {
+
         TrackAdapter.Track.OnClickListener onClickListener =
                 new TrackAdapter.Track.OnClickListener() {
                     @Override
