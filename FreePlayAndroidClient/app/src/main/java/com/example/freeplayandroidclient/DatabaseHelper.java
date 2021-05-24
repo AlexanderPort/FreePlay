@@ -24,7 +24,7 @@ public class DatabaseHelper {
             "artistId varchar(36) not null primary key, artistName varchar(128) not null)";
     private final String TRACK = "create table if not exists track(" +
             "trackId varchar(36) not null primary key, trackName varchar(128) not null, " +
-            "trackDataFormat varchar(4) not null, trackImageFormat varchar(4) not null)";
+            "trackDataFormat varchar(5) not null, trackImageFormat varchar(5) not null)";
     private final String TRACK_ALBUM = "create table if not exists track_album(" +
             "trackId varchar(36) not null, albumId varchar(36) not null, " +
             "foreign key(trackId) references track(trackId), " +
@@ -170,9 +170,7 @@ public class DatabaseHelper {
             String trackDataFormat = trackCursor.getString(2);
             String trackImageFormat = trackCursor.getString(3);
             Track track = new Track(trackId, trackName, trackDataFormat, trackImageFormat);
-            System.out.println(trackDataFormat);
-            System.out.println(trackDataFormat);
-            System.out.println(trackDataFormat);
+
             trackId = String.format("'%s'", trackId);
 
             Cursor albumCursor = db.rawQuery(albumQuery + trackId, null);

@@ -35,7 +35,7 @@ public class MainActivity extends Base {
                 error.printStackTrace();
             }
         };
-        api.getRandomTracks(20, jsonObjectListener, errorListener);
+        api.getRandomTracks(30, jsonObjectListener, errorListener);
         trackRecyclerView = findViewById(R.id.trackRecyclerView);
         onPrepared(mediaPlayer);
     }

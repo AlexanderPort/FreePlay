@@ -117,7 +117,6 @@ public class ActionsActivity extends Base {
             shareIntent.setAction(Intent.ACTION_SEND);
             File file = new File(getFilesDir() + "/tracks",
                     track.getTrackId() + "." + track.getTrackDataFormat());
-            System.out.println(track.getTrackDataFormat());
             if (file.exists()) {
                 Uri uri = FileProvider.getUriForFile(getApplicationContext(),
                         "com.example.freeplayandroidclient.provider", file);
@@ -132,6 +131,7 @@ public class ActionsActivity extends Base {
         }
     }
     public void saveTrack(byte[] bytes, String filename) {
+        Toast.makeText(this, "Downloading track...", Toast.LENGTH_LONG).show();
         Album album = track.getAlbums().get(0);
         Artist artist = track.getArtists().get(0);
         databaseHelper.insertArtist(artist);
@@ -143,11 +143,13 @@ public class ActionsActivity extends Base {
         try {
             File file = new File(filename);
             if (!file.exists()) { boolean status = file.createNewFile(); }
+            else { Toast.makeText(this, "Track already saved", Toast.LENGTH_LONG).show(); }
             FileOutputStream fos = new FileOutputStream(filename);
             fos.write(bytes); fos.flush(); fos.close();
             Toast.makeText(this, "Track successfully saved", Toast.LENGTH_LONG).show();
         } catch (IOException exception) {
             exception.printStackTrace();
+            Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
         }
     }
     public void saveThumbnail(String trackId, int maxWidth, int maxHeight) {
