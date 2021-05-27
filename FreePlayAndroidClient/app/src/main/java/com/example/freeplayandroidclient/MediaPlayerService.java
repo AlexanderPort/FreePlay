@@ -1,5 +1,6 @@
 package com.example.freeplayandroidclient;
 
+import android.app.IntentService;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -7,10 +8,16 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
+import android.os.Message;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.JobIntentService;
 
 import java.io.IOException;
 
@@ -22,15 +29,39 @@ public class MediaPlayerService extends Service implements
         MediaPlayer.OnSeekCompleteListener,
         MediaPlayer.OnBufferingUpdateListener,
         AudioManager.OnAudioFocusChangeListener {
-    private String dataSource;
     private int resumePosition;
     private MediaPlayer mediaPlayer;
     private AudioManager audioManager;
+
+    public enum ACTIONS {
+        ACTION_START,
+        ACTION_STOP,
+        ACTION_SET_DATASOURCE
+    }
 
     private final IBinder binder = new MediaPlayerBinder();
     public class MediaPlayerBinder extends Binder {
         public MediaPlayerService getService() {
             return MediaPlayerService.this;
+        }
+    }
+    public class MediaPlayerHandler extends Handler {
+        private final MediaPlayerService service;
+        public MediaPlayerHandler(MediaPlayerService service, Looper looper) {
+            super(looper);
+            this.service = service;
+        }
+        @Override
+        public void handleMessage(@NonNull Message message) {
+            super.handleMessage(message);
+            if (message.what == ACTIONS.ACTION_START.ordinal()) {
+                Bundle bundle = message.getData();
+                String dataSource = bundle.getString("dataSource");
+                if (dataSource == null) service.startMediaPlayer();
+                else service.setDataSourceAndStart(dataSource);
+            } else if (message.what == ACTIONS.ACTION_STOP.ordinal()) {
+                service.stopMediaPlayer();
+            }
         }
     }
 
@@ -42,18 +73,9 @@ public class MediaPlayerService extends Service implements
         mediaPlayer.setOnCompletionListener(this);
         mediaPlayer.setOnSeekCompleteListener(this);
         mediaPlayer.setOnBufferingUpdateListener(this);
-
-        mediaPlayer.reset();
-
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        try {
-            mediaPlayer.setDataSource(dataSource);
-        } catch (IOException exception) {
-            exception.printStackTrace();
-            stopSelf();
-        }
-        mediaPlayer.prepareAsync();
     }
+
     public void startMediaPlayer() {
         if (mediaPlayer == null) return;
         if (!mediaPlayer.isPlaying()) {
@@ -94,22 +116,21 @@ public class MediaPlayerService extends Service implements
     public int getCurrentPosition() {
         return mediaPlayer.getCurrentPosition();
     }
-
-    public void setDataSource(String dataSource) {
-        this.dataSource = dataSource;
+    public void setDataSourceAndStart(String dataSource) {
+        mediaPlayer.reset();
+        try {
+            mediaPlayer.setDataSource(dataSource);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+        mediaPlayer.prepareAsync();
     }
 
     @Nullable
     @Override
     @RequiresApi(api = Build.VERSION_CODES.M)
     public IBinder onBind(Intent intent) {
-        try { dataSource = intent.getExtras().getString("media");
-        } catch (NullPointerException exception) { stopSelf(); }
-
-        if (!requestAudioFocus()) { stopSelf(); }
-
-        if (dataSource != null && !dataSource.equals("")) createMediaPlayer();
-
+        createMediaPlayer();
         return binder;
     }
 
@@ -124,7 +145,7 @@ public class MediaPlayerService extends Service implements
     }
     @Override
     public void onPrepared(MediaPlayer mp) {
-
+        mp.start();
     }
     @Override
     public void onCompletion(MediaPlayer mp) {
